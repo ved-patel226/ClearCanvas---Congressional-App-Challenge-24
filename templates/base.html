@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    <title>ClearCanvas</title>
+</head>
+<body>
+    <div class="nav">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='svgs/eraser.svg') }}" alt="eraser icon">
+            <h1>ClearCanvas</h1>
+        </div>
+        <div class="menu">
+           <a href="https://github.com/ved-patel226">
+            <h1>Login</h1>
+           </a>
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

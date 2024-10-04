@@ -17,7 +17,7 @@ app.register_blueprint(github_blueprint, url_prefix="/login")
 @app.route("/")
 def index():
     if not github.authorized:
-        return redirect(url_for("github.login"))
+        return render_template("index.html")
     
     resp = github.get("/user")
     assert resp.ok, resp.text
