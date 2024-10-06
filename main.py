@@ -46,17 +46,16 @@ def register():
     
     if request.method == "POST":
         school_name = request.form.get('school_name')
+        file = request.files['file']
+        
         cprint(f"School Name: {school_name}", "green", attrs=["bold"])
         
         assert 'file' in request.files
-        
-        file = request.files['file']
-        
         assert file.filename != ''
 
         if file:
             file.filename = f"{school_name}.png"
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], school_name, file.filename)
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
             file.save(filepath)
     

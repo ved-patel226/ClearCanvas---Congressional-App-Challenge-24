@@ -6,27 +6,15 @@
     <h1 class="form-title">Upload your school map!</h1>
     
     <label for="school_name" class="form-label">School Name:</label>
-    <input type="text" name="school_name" id="school_name" class="form-input" placeholder="Enter your school name">
-
+    <input type="text" name="school_name" id="school_name" class="form-input" placeholder="Type your school name...">
+    
+    <ul id="suggestions" class="suggestions-list" style="list-style: none; padding: 0; display: none;"></ul>
+    
     <input type="file" name="file" class="form-input">
     <input class="btn load-show" type="submit" value="Upload">
 </form>
 
-<script>
-    document.getElementById('school_name').addEventListener('input', function() {
-        const query = this.value;
-        fetch(`/search_schools?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                const dropdown = document.getElementById('school_name');
-                dropdown.innerHTML = '<option value="">Select a school...</option>'; // Reset dropdown
-                data.forEach(school => {
-                    const option = document.createElement('option');
-                    option.value = school[0]; // School name
-                    option.textContent = school[0]; // Display name
-                    dropdown.appendChild(option);
-                });
-            });
-    });
-    </script>
+
+
+<script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
 {% endblock %}
