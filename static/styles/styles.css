@@ -3,7 +3,7 @@
 body {
     font-family: "Poppins", system-ui;
     margin: 0;
-    padding: 0;
+    padding-top: 200px;
 
     --primary: #705C53;
     --secondary: #B7B7B7;
@@ -137,11 +137,11 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 100px;
     padding: 150px;
     background: rgba(var(--quaternary-rgb), 0.3);
-    margin-top: 200px;
+    height: calc(100vh - 500px);
     transform: translate3d(0, 0, 0);
     transition: all var(--spring-duration) var(--spring-easing);
 }
@@ -164,4 +164,43 @@ main {
     width: 500px;
     height: 500px;
     transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--tertiary);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 1rem rgba(var(--primary-rgb), 0.2);
+    max-width: 500px;
+    margin: auto;
+}
+
+.form-label {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+.form-input {
+    padding: 10px;
+    border: 2px solid var(--secondary);
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border 0.3s ease-in-out;
+}
+
+
+.form-input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+
+.form-title {
+    font-size: 28px;
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
 }
