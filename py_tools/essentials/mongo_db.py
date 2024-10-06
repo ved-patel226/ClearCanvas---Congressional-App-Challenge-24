@@ -49,3 +49,11 @@ class MongoDBHandler:
     def close_connection(self):
         """Close the MongoDB connection."""
         self.client.close()
+
+def main() -> None:
+    mongo = MongoDBHandler()
+    
+    mongo.print_all_documents()
+    
+if __name__ == '__main__':
+    main()

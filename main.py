@@ -26,10 +26,13 @@ def index():
     if not github.authorized:
         return render_template("index.html")
     
+    global resp
     resp = github.get("/user")
+    
     assert resp.ok, resp.text
     
-    return render_template("index.html")
+        
+    return render_template("dashboard.html")
 
 @app.route("/search_schools", methods=["GET"])
 def search_schools():
@@ -38,6 +41,16 @@ def search_schools():
     column_name = 'NAME'
     results = search_csv_column(file_path, column_name, query)
     return jsonify(results)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        cprint(f"User is a {request.form.get('role')}", "green", attrs=["bold"])
+        mongo = MongoDBHandler()
+        mongo.insert_document("users", {"username": github.get("/user"), "role": request.form.get("role")})
+        mongo.close_connection()
+        
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -48,6 +61,7 @@ def register():
         school_name = request.form.get('school_name')
         file = request.files['file']
         
+
         cprint(f"School Name: {school_name}", "green", attrs=["bold"])
         
         assert 'file' in request.files
@@ -60,9 +74,14 @@ def register():
             if os.path.exists(filepath):
                 return render_template("error.html", message="File already exists. Please choose a different file name.")
 
+            mongo = MongoDBHandler()
+            mongo.insert_document("schools", {"school_name": school_name, "file": filepath})
+            mongo.close_connection()
             
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
             file.save(filepath)
+            
+            return render_template("dashboard.html", username=resp.json().get("login"))
     
     return render_template("register.html")
 
