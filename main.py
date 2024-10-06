@@ -30,8 +30,7 @@ def index():
     resp = github.get("/user")
     
     assert resp.ok, resp.text
-    
-        
+
     return render_template("dashboard.html")
 
 @app.route("/search_schools", methods=["GET"])
@@ -44,16 +43,28 @@ def search_schools():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    
+    resp_set()
+    
     if request.method == "POST":
         cprint(f"User is a {request.form.get('role')}", "green", attrs=["bold"])
         mongo = MongoDBHandler()
-        mongo.insert_document("users", {"username": github.get("/user"), "role": request.form.get("role")})
+        try:
+            resp.json()['login']
+        except:
+            return redirect(url_for("github.login"))
+        
+        cprint(f"User: {resp.json()['login']}, role: {request.form.get("role")}", "green", attrs=["bold"])
+        mongo.insert_document("users", {"username": resp.json()['login'], "role": request.form.get("role")})
         mongo.close_connection()
         
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    
+    resp_set()
+    
     if not github.authorized:
         return redirect(url_for("github.login"))
     
@@ -84,6 +95,10 @@ def register():
             return render_template("dashboard.html", username=resp.json().get("login"))
     
     return render_template("register.html")
+
+def resp_set():
+    global resp
+    resp = github.get("/user")
 
 if __name__ == "__main__":
     app.run(debug=True)

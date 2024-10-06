@@ -35,6 +35,11 @@ class MongoDBHandler:
         collection = self.db[collection_name]
         return collection.delete_one(query)
     
+    def delete_documents(self, collection_name, query):
+        """Delete multiple documents based on a query."""
+        collection = self.db[collection_name]
+        return collection.delete_many(query)
+    
     def print_all_documents(self):
         """Print all documents from all collections in the database."""
         collections = self.db.list_collection_names()
@@ -53,7 +58,7 @@ class MongoDBHandler:
 def main() -> None:
     mongo = MongoDBHandler()
     
-    mongo.print_all_documents()
+    mongo.delete_documents("users", {})
     
 if __name__ == '__main__':
     main()
