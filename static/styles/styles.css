@@ -39,6 +39,7 @@ main {
 .btn:hover {
     background-color: var(--quaternary);
     color: var(--primary);
+    cursor: pointer;
 }
 
 .btn-alt {
@@ -221,4 +222,18 @@ main {
 
 .suggestions-list li:hover {
     background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.error * {
+    text-align: center;
+}
+
+.error h1 {
+    font-size: 50px;
+}
+
+.error p span{
+    font-size: 20px;
+    font-weight: 900;
 }

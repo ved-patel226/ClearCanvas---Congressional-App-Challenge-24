@@ -56,6 +56,11 @@ def register():
         if file:
             file.filename = f"{school_name}.png"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], school_name, file.filename)
+            
+            if os.path.exists(filepath):
+                return render_template("error.html", message="File already exists. Please choose a different file name.")
+
+            
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
             file.save(filepath)
     

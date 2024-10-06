@@ -6,19 +6,19 @@ schoolInput.addEventListener('input', function() {
     const query = this.value;
 
     if (query.length > 0) {
+        // api call to fetch schools
         fetch(`/search_schools?query=${query}`)
             .then(response => response.json())
             .then(data => {
                 suggestions.innerHTML = '';
                 suggestions.style.display = 'none';
 
-                // Populate suggestions
                 data.forEach(school => {
                     const li = document.createElement('li');
                     li.textContent = `${school[0]} - ${school[1]}`;
                     li.onclick = function() {
-                        schoolInput.value = school[0];
-                        lastValidSchool = school[0];
+                        schoolInput.value = `${school[0]} - ${school[1]}`;
+                        lastValidSchool = `${school[0]} - ${school[1]}`;
                         suggestions.innerHTML = '';
                         suggestions.style.display = 'none';
                     };

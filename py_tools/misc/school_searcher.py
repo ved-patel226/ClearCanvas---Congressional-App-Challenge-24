@@ -1,6 +1,6 @@
 import pandas as pd
 
-def search_csv_column(file_path, column_name, search_string):
+def search_csv_column(file_path: str, column_name: str, search_string: str) -> list:
     dtype = {column_name: str, 'ADDRESS': str}
     usecols = [column_name, 'ADDRESS']
     
@@ -11,7 +11,7 @@ def search_csv_column(file_path, column_name, search_string):
     top_results = search_results[[column_name, 'ADDRESS']].head(3)
 
     if top_results.empty:
-        return []
+        return search_csv_column("static\schools\Private_Schools.csv", column_name, search_string)
 
     result_list = top_results.values.tolist()
     
