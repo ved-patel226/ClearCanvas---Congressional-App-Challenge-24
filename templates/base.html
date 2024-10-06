@@ -13,13 +13,19 @@
             <h1>ClearCanvas</h1>
         </div>
         <div class="menu">
-           <a href="https://github.com/ved-patel226">
+           <a class="active-btn" href="{{ url_for('github.login') }}">
             <h1>Login</h1>
            </a>
         </div>
     </div>
 
-    {% block content %}
+    {% block hero %}
     {% endblock %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
 </body>
 </html>

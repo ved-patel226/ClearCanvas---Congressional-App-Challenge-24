@@ -1,4 +1,20 @@
 {% extends 'base.html' %}
 
+{% block hero %}
+
+<div class="hero">
+    <div class="hero-text">
+        <h1>Lets cut down on addictions in school</h1>
+        <p>We got this. It starts with you.</p>
+        <div class="btns">
+            <a class="btn" href="{{ url_for('github.login') }}">Login</a>
+            <a class="btn-alt" href="/register">Register Your School</a>
+        </div>
+    </div>
+    <img src="{{ url_for('static', filename='svgs/pill.svg') }}" alt="eraser icon">
+</div>
+{% endblock %}
+
 {% block content %}
+dafds
 {% endblock %}

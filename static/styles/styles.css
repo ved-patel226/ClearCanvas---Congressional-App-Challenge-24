@@ -18,7 +18,43 @@ body {
     --spring-easing: linear(0, 0.0014 0.52%, 0.0071 1.17%, 0.0267 2.35%, 0.0603 3.65%, 0.1087 5.09%, 0.2169 7.69%, 0.4731 13.17%, 0.5884, 0.692, 0.7811, 0.855, 0.9141 26.21%, 0.9384 27.52%, 0.9615, 0.9808 30.39%, 0.9982 31.95%, 1.0177 34.3%, 1.0317 36.91%, 1.0395 39.65%, 1.0421 42.78%, 1.0385 47.21%, 1.0132 61.04%, 1.0028 70.03%, 0.9985 80.99%, 0.9992 99.9%);
     --spring-duration: 1.238s;
 
+    background-color: var(--quaternary);
+}
+
+main {
     background-color: var(--tertiary);
+}
+
+.btn {
+    font-size: 20px;
+    background-color: var(--primary);
+    color: var(--quaternary);
+    padding: 10px 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    border: 3px solid var(--primary);
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.btn:hover {
+    background-color: var(--quaternary);
+    color: var(--primary);
+}
+
+.btn-alt {
+    font-size: 20px;
+    background-color: var(--quaternary);
+    color: var(--primary);
+    padding: 10px 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    border: 3px solid var(--primary);
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.btn-alt:hover {
+    background-color: var(--primary);
+    color: var(--quaternary);
 }
 
 .nav {
@@ -71,13 +107,61 @@ body {
     transition: all var(--spring-duration) var(--spring-easing);
 }
 
-.nav .menu a h1:hover {
-    color: var(--primary);
-    scale: 1.02;
-}
-
 .nav .menu a {
     text-decoration: none;
     color: black;
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.nav .menu a.active-btn {
+    background-color: var(--primary);
+    border: 3px solid var(--primary);
+    line-height: 1;
+    padding: 0 20px;
+    border-radius: 15px;
+}
+
+.nav .menu a.active-btn h1 {
+    color: var(--quaternary);
+}
+
+.nav .menu a.active-btn:hover {
+    background-color: var(--quaternary);
+}
+
+.nav .menu a.active-btn:hover h1 {
+    color: var(--primary);
+}
+
+.hero {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+    padding: 150px;
+    background: rgba(var(--quaternary-rgb), 0.3);
+    margin-top: 200px;
+    transform: translate3d(0, 0, 0);
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.hero .hero-text h1 {
+    font-size: 75px;
+}
+
+.hero .hero-text p {
+    font-size: 25px;
+}
+
+.hero .hero-text .btns {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.hero img {
+    width: 500px;
+    height: 500px;
     transition: all var(--spring-duration) var(--spring-easing);
 }
