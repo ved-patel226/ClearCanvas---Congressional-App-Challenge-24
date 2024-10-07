@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block hero %}
+
+
+{% if version == False %}
 <form method="POST" enctype="multipart/form-data" id="uploadForm" class="styled-form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <h1 class="form-title">Upload your school map!</h1>
@@ -13,6 +16,19 @@
     <input type="file" name="file" class="form-input">
     <input class="btn load-show" type="submit" value="Upload">
 </form>
+{% else %}
+<form method="POST" enctype="multipart/form-data" id="schoolForm" class="styled-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h1 class="form-title">Whats your school?</h1>
+    
+    <label for="school_name" class="form-label">School Name:</label>
+    <input type="text" name="school_name_2" id="school_name_2" class="form-input" placeholder="Type your school name...">
+    
+    <ul id="suggestions_2" class="suggestions-list" style="list-style: none; padding: 0; display: none;"></ul>
+</form>
+{% endif %}
+
+
 
 <script src="{{ url_for('static', filename='js/dropdown.js') }}"></script>
 {% endblock %}

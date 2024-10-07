@@ -3,13 +3,9 @@
 
 
 {% block hero %}
-    {% if critical_actions == True %}
-        <h1>CRITICAL ACTIONS REQUIRED</h1>
-        <h2>Account SETUP incomplete</h2>
-        <h2>Are you a Student or Teacher?</h2>
-        <a href="" class="btn">Student</a>
-        <a href="" class="btn-alt">Teacher</a>
+    {% if info == True %}
+        
     {% else %}
-        <h1>Dashboard</h1>
+        <h1>Welcome, {{username}}</h1>
     {% endif %}
 {% endblock %}
