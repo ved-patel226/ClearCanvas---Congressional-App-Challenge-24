@@ -5,6 +5,7 @@ from flask import Flask, redirect, url_for, render_template, request, session, a
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_wtf.csrf import CSRFProtect, validate_csrf
 from termcolor import cprint
+from datetime import datetime
 
 from py_tools import *
 
@@ -20,9 +21,8 @@ github_blueprint = make_github_blueprint(client_id=env_to_var("GITHUB_CLIENT_ID"
 
 app.register_blueprint(github_blueprint, url_prefix="/login")
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
-    
     try:
         if register_redirect:
             return redirect(url_for("register"))
@@ -43,19 +43,50 @@ def index():
     
     assert resp.ok, resp.text
 
-    school_info_needed = False
-    
     mongo = MongoDBHandler()
     
     try:
-        mongo.find_document("users", {"username": resp.json()['login']}['school'])
+        mongo.find_document("users", {"username": resp.json()['login']})['school']
     except:
-        school_info_needed = True
+        school_info_needed = 0
+        school_info = None
+    else:
+        school_info_needed = 1
+        school = mongo.find_document("users", {"username": resp.json()['login']})["school"]
+        cprint(f"School: {school}", "green", attrs=["bold"])
+        
+        school_info = mongo.find_document("schools", {"school_name": school})
+        
+        cprint(school_info, "green", attrs=["bold"])
     finally:
         mongo.close_connection()
-    
-    return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed)
+            
+    return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info)
 
+@app.route("/problem", methods=["POST"])
+def problem():
+    resp_set()
+    
+    problem = request.get_json()
+    
+    cprint(f"Problem: {problem}", "green", attrs=["bold"])
+    
+    pass
+
+@app.route("/", methods=["POST"])
+def form_handling():
+    resp_set()
+    
+    school_name = request.form.get('school_name')
+    
+    cprint(f"School Name: {school_name}", "green", attrs=["bold"])
+    
+    mongo = MongoDBHandler()
+    mongo.update_document("users", {"username": resp.json()['login']}, {"school": school_name})
+    mongo.close_connection()
+    
+    return render_template("dashboard.html", username=resp.json()['login'])
+    
 @app.route("/search_schools", methods=["GET"])
 def search_schools():
     query = request.args.get('query', '')
@@ -84,6 +115,7 @@ def login():
         if mongo.find_document("users", {"username": resp.json()['login']}) != None:
             if mongo.find_document("users", {"username": resp.json()['login']})['role'] == request.form.get("role"):
                 cprint("Roles match; redirecting to dashboard", "green", attrs=["bold"])
+                
                 return redirect(render_template("dashboard.html", username=resp.json()['login']))
             else:
                 cprint("Roles dont match; throwing error", "green", attrs=["bold"])
@@ -98,18 +130,6 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    
-    mongo = MongoDBHandler()
-    
-    version = False
-    
-    try:
-        mongo.find_document("users", {"username": resp.json()['login']}['school'])
-    except:
-        version = True
-    finally:
-        mongo.close_connection()
-        
     resp_set()
     
     global register_redirect
@@ -152,8 +172,27 @@ def register():
             return render_template("dashboard.html", username=resp.json().get("login"))
     
     cprint("Register", "green", attrs=["bold"])
-    return render_template("register.html", version=version)
+    return render_template("register.html")
 
+@app.route('/coordinates', methods=['POST'])
+def get_coordinates():
+    resp_set()
+    
+    mongo = MongoDBHandler()
+
+    data = request.get_json()
+    data["timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    data["school"] = mongo.find_document("users", {"username": resp.json()['login']})["school"]
+    data["username"] = resp.json()['login']
+    
+    cprint(f"Data: {data}", "green", attrs=["bold"])
+
+    
+    mongo.insert_document("coordinates", data)
+    mongo.close_connection()
+    
+    return {}, 200
+    
 def resp_set():
     global resp
     resp = github.get("/user")

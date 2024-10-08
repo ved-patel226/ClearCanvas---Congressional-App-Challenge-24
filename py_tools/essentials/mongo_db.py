@@ -59,7 +59,6 @@ def main() -> None:
     mongo = MongoDBHandler()
     mongo.print_all_documents()
     
-    print(mongo.find_document("schools", {"username": "test"}))
         
 if __name__ == '__main__':
     main()

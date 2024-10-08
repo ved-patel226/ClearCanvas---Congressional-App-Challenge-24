@@ -3,9 +3,55 @@
 
 
 {% block hero %}
-    {% if info == True %}
+    {% if info == 0 %}
+        <form method="POST" enctype="multipart/form-data" id="uploadForm" class="styled-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <h1 class="form-title">Before you continue, what school do you go to?</h1>
+            
+            <label for="school_name" class="form-label">School Name:</label>
+            <input type="text" name="school_name" id="school_name" class="form-input" placeholder="Type your school name...">
+            
+            <ul id="suggestions" class="suggestions-list" style="list-style: none; padding: 0; display: none;"></ul>
         
+            <button class="btn" type="submit">Submit</button>
+        </form>
     {% else %}
-        <h1>Welcome, {{username}}</h1>
+        <div class="school-container">
+            <div class="text">
+                <h1>Let's talk about it.</h1>
+                <h2>What happened today? Click on where the event took place. Then, click again to submit</h2>
+                <a href="/" class="btn">Click To Reset</a>
+            </div>
+
+            {{ school_info }}
+
+            <div id="canvas">
+                <img id="image" src="{{school_info['file']}}" alt="" draggable="false">
+            </div>
+        </div>
+
+        <div id="after" class="school-container">
+            <form method="POST" enctype="multipart/form-data" id="problemForm" class="styled-form" action="/problem">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <h1 class="form-title">Okay. So what happened?</h1>
+                
+                <label for="problem" class="form-label">What exactly is the problem?</label>
+                <input type="text" name="problem" id="problem" class="form-input" placeholder="Type away!">
+                
+                <label for="level" class="form-label">What is the Severity?</label>
+                <input type="range" id="level" name="level" min="1" max="5" value="3" class="slider" oninput="updateValue(this.value)">
+                <p>Severity: <span id="levelValue">3</span></p>
+
+                <button class="btn" type="submit">Submit</button>
+            </form>
+        </div>
+        
     {% endif %}
+
+<input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
+
+<script src="{{ url_for('static', filename='js/dropdown2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/click_img.js') }}"></script>
+<script src="{{ url_for('static', filename='js/drag.js') }}"></script>
+
 {% endblock %}
