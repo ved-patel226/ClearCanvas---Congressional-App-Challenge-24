@@ -23,15 +23,13 @@
                 <a href="/" class="btn">Click To Reset</a>
             </div>
 
-            {{ school_info }}
-
             <div id="canvas">
                 <img id="image" src="{{school_info['file']}}" alt="" draggable="false">
             </div>
         </div>
 
         <div id="after" class="school-container">
-            <form method="POST" enctype="multipart/form-data" id="problemForm" class="styled-form" action="/problem">
+            <form method="POST" id="problemForm" class="styled-form" action="/problem">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h1 class="form-title">Okay. So what happened?</h1>
                 

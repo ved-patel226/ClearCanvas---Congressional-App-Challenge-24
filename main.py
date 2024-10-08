@@ -39,6 +39,7 @@ def index():
         return render_template("index.html")
     
     global resp
+    
     resp = github.get("/user")
     
     assert resp.ok, resp.text
@@ -51,13 +52,17 @@ def index():
         school_info_needed = 0
         school_info = None
     else:
-        school_info_needed = 1
-        school = mongo.find_document("users", {"username": resp.json()['login']})["school"]
-        cprint(f"School: {school}", "green", attrs=["bold"])
-        
-        school_info = mongo.find_document("schools", {"school_name": school})
-        
-        cprint(school_info, "green", attrs=["bold"])
+        if mongo.find_document("users", {"username": resp.json()['login']})['school'] == None:
+            school_info_needed = 0
+            school_info = None
+        else:
+            school_info_needed = 1
+            school = mongo.find_document("users", {"username": resp.json()['login']})['school']
+            cprint(f"School: {school}", "green", attrs=["bold"])
+            
+            school_info = mongo.find_document("schools", {"school_name": school})
+            
+            cprint(school_info, "green", attrs=["bold"])
     finally:
         mongo.close_connection()
             
@@ -67,11 +72,34 @@ def index():
 def problem():
     resp_set()
     
-    problem = request.get_json()
+    problem = request.form.get('problem')
+    level = request.form.get('level')
     
-    cprint(f"Problem: {problem}", "green", attrs=["bold"])
+    mongo = MongoDBHandler()
+    mongo_lst = mongo.find_documents("coordinates", {"username": resp.json()['login']})
+    lst = []
     
-    pass
+    for l in mongo_lst:
+        lst.append(l)
+    
+    
+    get_coordinates = find_latest_timestamp(lst)
+    cprint(f"Latest Timestamp: {get_coordinates}", "green", attrs=["bold"])
+        
+    mongo.update_document("coordinates", lst[get_coordinates[1]], {"problem": problem, "level": level})
+    mongo.close_connection()
+
+    email = resp.json()['email']
+    
+    send_email(
+        env_to_var("FROM_EMAIL"),
+        email,
+        env_to_var("FROM_EMAIL_PASSWORD"),
+        "Problem Reported",
+        "Your problem has been reported. We will get back to you soon."     
+    )
+
+    return {}, 200
 
 @app.route("/", methods=["POST"])
 def form_handling():

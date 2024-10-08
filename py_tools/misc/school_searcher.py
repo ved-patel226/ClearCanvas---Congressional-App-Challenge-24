@@ -1,6 +1,8 @@
 import pandas as pd
 
 def search_csv_column(file_path: str, column_name: str, search_string: str) -> list:
+    """Search a CSV file for a specific column and return the top 3 results."""
+    
     dtype = {column_name: str, 'ADDRESS': str}
     usecols = [column_name, 'ADDRESS']
     
