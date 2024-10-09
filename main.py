@@ -44,6 +44,8 @@ def index():
     
     assert resp.ok, resp.text
 
+    cprint(get_school_info(resp), "green", attrs=["bold"])
+    
     mongo = MongoDBHandler()
     
     try:
@@ -58,16 +60,32 @@ def index():
         else:
             school_info_needed = 1
             school = mongo.find_document("users", {"username": resp.json()['login']})['school']
-            cprint(f"School: {school}", "green", attrs=["bold"])
+            cprint(f"School: {school}", "grey", attrs=["bold"])
             
             school_info = mongo.find_document("schools", {"school_name": school})
             
-            cprint(school_info, "green", attrs=["bold"])
-    finally:
-        mongo.close_connection()
+            cprint(school_info, "grey", attrs=["bold"])
+    
+    role = "student"
+    
+    try:
+        if mongo.find_document("users", {"username": resp.json()['login']})['role'] == "teacher":
+            role = "teacher"
             
-    return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info)
-
+            coords = list(mongo.find_documents("coordinates", {"school": mongo.find_document("users", {"username": resp.json()['login']})['school']}))
+            cprint(f"Available Coords: {len(coords)}", "grey", attrs=["bold"])
+            
+            mongo.close_connection()
+            
+            return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role, coords=coords)
+        
+        else:
+            mongo.close_connection()
+            return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role)
+    except:
+        mongo.close_connection()
+        return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role)
+        
 @app.route("/problem", methods=["POST"])
 def problem():
     resp_set()
@@ -84,13 +102,13 @@ def problem():
     
     
     get_coordinates = find_latest_timestamp(lst)
-    cprint(f"Latest Timestamp: {get_coordinates}", "green", attrs=["bold"])
+    cprint(f"Latest Timestamp: {get_coordinates}", "grey", attrs=["bold"])
         
     mongo.update_document("coordinates", lst[get_coordinates[1]], {"problem": problem, "level": level})
     mongo.close_connection()
 
     email = resp.json()['email']
-    
+        
     send_email(
         env_to_var("FROM_EMAIL"),
         email,
@@ -107,7 +125,7 @@ def form_handling():
     
     school_name = request.form.get('school_name')
     
-    cprint(f"School Name: {school_name}", "green", attrs=["bold"])
+    cprint(f"School Name: {school_name}", "grey", attrs=["bold"])
     
     mongo = MongoDBHandler()
     mongo.update_document("users", {"username": resp.json()['login']}, {"school": school_name})
@@ -128,7 +146,7 @@ def login():
     resp_set()
     
     if request.method == "POST":
-        cprint(f"User is a {request.form.get('role')}", "green", attrs=["bold"])
+        cprint(f"User is a {request.form.get('role')}", "grey", attrs=["bold"])
         mongo = MongoDBHandler()
         
         global login_redirect
@@ -142,17 +160,18 @@ def login():
         
         if mongo.find_document("users", {"username": resp.json()['login']}) != None:
             if mongo.find_document("users", {"username": resp.json()['login']})['role'] == request.form.get("role"):
-                cprint("Roles match; redirecting to dashboard", "green", attrs=["bold"])
+                cprint("Roles match; redirecting to dashboard", "grey", attrs=["bold"])
                 
                 return redirect(render_template("dashboard.html", username=resp.json()['login']))
             else:
-                cprint("Roles dont match; throwing error", "green", attrs=["bold"])
+                cprint("Roles dont match; throwing error", "grey", attrs=["bold"])
                 return render_template("error.html", message="User already exists with a different role.")
         else:
             mongo.insert_document("users", {"username": resp.json()['login'], "role": request.form.get("role")})
         mongo.close_connection()
         
-        return redirect(render_template("dashboard.html", username=resp.json()['login']))
+        
+        return redirect(render_template("dashboard.html", username=resp.json()['login']), )
         
     return render_template("login.html")
 
@@ -172,7 +191,7 @@ def register():
         school_name = request.form.get('school_name')
         file = request.files['file']
         
-        cprint(f"School Name: {school_name}", "green", attrs=["bold"])
+        cprint(f"School Name: {school_name}", "grey", attrs=["bold"])
         
         assert 'file' in request.files
         assert file.filename != ''
@@ -196,10 +215,10 @@ def register():
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
             file.save(filepath)
             
-            cprint("Dashboard", "green", attrs=["bold"])
+            cprint("Dashboard", "grey", attrs=["bold"])
             return render_template("dashboard.html", username=resp.json().get("login"))
     
-    cprint("Register", "green", attrs=["bold"])
+    cprint("Register", "grey", attrs=["bold"])
     return render_template("register.html")
 
 @app.route('/coordinates', methods=['POST'])
@@ -213,7 +232,7 @@ def get_coordinates():
     data["school"] = mongo.find_document("users", {"username": resp.json()['login']})["school"]
     data["username"] = resp.json()['login']
     
-    cprint(f"Data: {data}", "green", attrs=["bold"])
+    cprint(f"Data: {data}", "grey", attrs=["bold"])
 
     
     mongo.insert_document("coordinates", data)

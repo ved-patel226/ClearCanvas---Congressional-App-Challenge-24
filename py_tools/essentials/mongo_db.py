@@ -57,7 +57,11 @@ class MongoDBHandler:
 
 def main() -> None:
     mongo = MongoDBHandler()
+    
+    # mongo.delete_documents("users", {})
     mongo.print_all_documents()
+    # mongo.delete_documents("users", {"username": "ved-patel226"})
+    # mongo.insert_document("users", {"username": "ved-patel226", "role": "teacher", "school": "JOHN ADAMS MIDDLE SCHOOL - 1081 NEW DOVER ROAD"})
     
         
 if __name__ == '__main__':
