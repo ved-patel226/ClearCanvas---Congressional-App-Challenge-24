@@ -45,7 +45,6 @@
                 </form>
             </div>
         {% endif %}
-    
     {% else %}
             <div id="canvas">
                 <img id="image" src="{{school_info['file']}}" alt="" draggable="false">
@@ -53,6 +52,8 @@
                     <div class="circle" style="left: {{c['x']}}px; top: {{c['y']}}px;"></div>
                 {% endfor %}
             </div>
+
+            <a class="btn" href="{{ url_for('problems')}}">All Problems</a>
     {% endif %}
 
 
