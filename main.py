@@ -1,11 +1,12 @@
 import os
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-from flask import Flask, redirect, url_for, render_template, request, session, abort, jsonify
+from flask import Flask, redirect, url_for, render_template, request, session, abort, jsonify, make_response
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_wtf.csrf import CSRFProtect, validate_csrf
 from termcolor import cprint
 from datetime import datetime
+from bson import ObjectId
 
 from py_tools import *
 
@@ -100,15 +101,41 @@ def problem():
         "Your problem has been reported. We will get back to you soon."     
     )
 
-    return {}, 200
+    return render_template("success.html")
 
-@app.route("/promblems", methods=["GET"])
+@app.route("/problems", methods=["GET"])
 def problems():
+    resp_set()
+    
     mongo = MongoDBHandler()
-    problems = mongo.find_documents("coordinates", {"school": mongo.find_document("users", {"username": resp.json()['login']})['school']})
+    problems = list(mongo.find_documents("coordinates", {"school": mongo.find_document("users", {"username": resp.json()['login']})['school']}))
     mongo.close_connection()
     
-    return jsonify(problems)
+    for problem in problems:
+        problem['_id'] = str(problem['_id'])
+    
+    # return jsonify(problems)
+    return render_template("problems.html", problems=problems, int=int)
+
+@app.route("/problems/<id>", methods=["GET"])
+def problem_id(id):
+    resp_set()
+    
+    email = resp.json().get('email')
+    
+    mongo = MongoDBHandler()
+    problems = mongo.find_document("coordinates", {"_id": ObjectId(id)})
+    mongo.close_connection()
+    
+    cprint(f"Problems: {problems}", "grey", attrs=["bold"])
+
+    problems['_id'] = str(problems['_id'])
+    
+    _, school_info = get_school_info(resp)
+    
+    school_info['file'] = school_info['file'].replace("static/", "", 1).replace("\\", "/")
+        
+    return render_template("problem.html", problem=problems, school_info=school_info, email=email)
 
 @app.route("/", methods=["POST"])
 def form_handling():
@@ -118,11 +145,13 @@ def form_handling():
     
     cprint(f"School Name: {school_name}", "grey", attrs=["bold"])
     
+    school_info_needed, school_info = get_school_info(resp)
+    
     mongo = MongoDBHandler()
     mongo.update_document("users", {"username": resp.json()['login']}, {"school": school_name})
     mongo.close_connection()
     
-    return render_template("dashboard.html", username=resp.json()['login'])
+    return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info)
     
 @app.route("/search_schools", methods=["GET"])
 def search_schools():
@@ -134,8 +163,7 @@ def search_schools():
 
 @app.route("/login", methods=["GET", "POST"])
 def login(): 
-    resp_set()
-    
+    resp_set() 
     if request.method == "POST":
         cprint(f"User is a {request.form.get('role')}", "grey", attrs=["bold"])
         mongo = MongoDBHandler()
@@ -164,7 +192,7 @@ def login():
         mongo.close_connection()
         
         
-        return redirect(render_template("dashboard.html", username=resp.json()['login']), )
+        return redirect(render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info))
         
     return render_template("login.html")
 
@@ -231,8 +259,19 @@ def get_coordinates():
     mongo.insert_document("coordinates", data)
     mongo.close_connection()
     
-    return {}, 200
+    return render_template("success.html")
+
+@app.route('/logout')
+def logout():
+    session.clear()
     
+    return redirect(url_for("index"))
+
+
+@app.context_processor
+def inject_user():
+    return dict(is_authenticated=github.authorized)
+
 def resp_set():
     global resp
     resp = github.get("/user")

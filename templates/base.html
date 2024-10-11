@@ -8,14 +8,23 @@
 </head>
 <body>
     <div class="nav">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='svgs/eraser.svg') }}" alt="eraser icon">
-            <h1>ClearCanvas</h1>
-        </div>
+        <a href="/">
+            <div class="logo">    
+                <img src="{{ url_for('static', filename='svgs/eraser.svg') }}" alt="eraser icon">
+                <h1>ClearCanvas</h1>
+            </div>
+        </a>
+
         <div class="menu">
-           <a class="active-btn" href="{{ url_for('login') }}">
-            <h1>Login</h1>
-           </a>
+            {% if not is_authenticated %}
+                <a class="active-btn" href="{{ url_for('login') }}">
+                    <h1>Login</h1>
+                </a>
+            {% else %}
+                <a class="active-btn" href="{{ url_for('logout') }}">
+                    <h1>Logout</h1>
+                </a>
+            {% endif %}
         </div>
     </div>
 

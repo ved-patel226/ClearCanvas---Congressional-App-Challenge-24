@@ -58,8 +58,10 @@ class MongoDBHandler:
 def main() -> None:
     mongo = MongoDBHandler()
     
+    # mongo.delete_documents("coordinates", {})
+    # mongo.update_document("users", {"username": "ved-patel226"}, {"role": "teacher"})
     mongo.print_all_documents()
-    
+        
         
 if __name__ == '__main__':
     main()
