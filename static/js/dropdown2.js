@@ -1,13 +1,12 @@
 const schoolInput = document.getElementById('school_name');
 const suggestions = document.getElementById('suggestions');
-
 let lastValidSchool = '';
 
 schoolInput.addEventListener('input', function() {
     const query = this.value;
 
     if (query.length > 0) {
-        // api call to fetch schools
+        // API call to fetch schools
         fetch(`/search_schools?query=${query}`)
             .then(response => response.json())
             .then(data => {
@@ -46,8 +45,8 @@ document.addEventListener('click', function(event) {
 
 document.getElementById('uploadForm').addEventListener('submit', function(event) {
     if (!lastValidSchool || schoolInput.value !== lastValidSchool) {
-        event.preventDefault(); // stop form submision
-        alert('Please select a valid school from the dropdown.'); // alert
+        event.preventDefault(); // Stop form submission
+        alert('Please select a valid school from the dropdown.');
         schoolInput.value = '';
         suggestions.innerHTML = '';
         suggestions.style.display = 'none';

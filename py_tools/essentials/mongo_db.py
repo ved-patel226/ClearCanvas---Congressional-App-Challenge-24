@@ -10,32 +10,37 @@ class MongoDBHandler:
         self.client = MongoClient(uri)
         self.db = self.client[db_name]
 
-    def insert_document(self, collection_name, document):
+    def insert_document(self, collection_name: str, document: dict) -> None:
         """Insert a document into a collection."""
         collection = self.db[collection_name]
         return collection.insert_one(document)
 
-    def find_document(self, collection_name, query):
+    def find_document(self, collection_name: str, query: dict) -> dict:
         """Find a single document based on a query."""
         collection = self.db[collection_name]
         return collection.find_one(query)
 
-    def find_documents(self, collection_name, query):
+    def find_documents(self, collection_name: str, query: dict) -> list:
         """Find multiple documents based on a query."""
         collection = self.db[collection_name]
         return collection.find(query)
 
-    def update_document(self, collection_name, query, new_values):
+    def update_document(self, collection_name: str, query: dict, new_values: dict):
         """Update a single document."""
         collection = self.db[collection_name]
         return collection.update_one(query, {'$set': new_values})
 
-    def delete_document(self, collection_name, query):
+    def delete_document(self, collection_name: str, query: dict) -> None:
         """Delete a single document based on a query."""
         collection = self.db[collection_name]
         return collection.delete_one(query)
     
-    def print_all_documents(self):
+    def delete_documents(self, collection_name: str, query: dict) -> None:
+        """Delete multiple documents based on a query."""
+        collection = self.db[collection_name]
+        return collection.delete_many(query)
+    
+    def print_all_documents(self) -> None:
         """Print all documents from all collections in the database."""
         collections = self.db.list_collection_names()
         for collection_name in collections:
@@ -46,6 +51,17 @@ class MongoDBHandler:
                 print(document)
             print("\n")
 
-    def close_connection(self):
+    def close_connection(self) -> None:
         """Close the MongoDB connection."""
         self.client.close()
+
+def main() -> None:
+    mongo = MongoDBHandler()
+    
+    # mongo.delete_documents("coordinates", {})
+    # mongo.update_document("users", {"username": "ved-patel226"}, {"role": "teacher"})
+    mongo.print_all_documents()
+        
+        
+if __name__ == '__main__':
+    main()
