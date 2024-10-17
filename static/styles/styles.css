@@ -25,7 +25,6 @@ main {
     background-color: var(--tertiary);
 }
 
-
 .btn {
     font-size: 20px;
     background-color: var(--primary);
@@ -390,6 +389,13 @@ main {
     background-color: var(--quaternary);
     border-radius: 20px;
     padding: 50px;
+    box-shadow: 5px 5px 0 rgba(var(--primary-rgb), 0.5);
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.feature:hover {
+    box-shadow: 10px 10px 0 rgba(var(--primary-rgb), 0.5);
+    transform: rotate(2deg);
 }
 
 .feature .text {
@@ -406,10 +412,26 @@ main {
 }
 
 .feature:hover svg {
-    transform: scale(1.05);
-    box-shadow: 10px 10px 0 rgba(var(--primary-rgb), 0.5);
+    transform: rotate(360deg);
 }
 
 ol li::marker {
     background-color: var(--secondary);
+}
+
+footer {
+    background-color: var(--quaternary);
+    margin: 0;
+    padding: 20px;
+    margin-top: auto;
+}   
+
+footer h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+}
+
+footer h3 span {
+    font-weight: 600;
 }
