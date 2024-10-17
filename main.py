@@ -235,10 +235,11 @@ def register():
             
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
             file.save(filepath)
-            
-            cprint("Dashboard", "grey", attrs=["bold"])
-            return render_template("dashboard.html", username=resp.json().get("login"))
-    
+            try:
+                cprint("Dashboard", "grey", attrs=["bold"])
+                return render_template("dashboard.html", username=resp.json().get("login"))
+            except:
+                return redirect(url_for("index"))
     cprint("Register", "grey", attrs=["bold"])
     return render_template("register.html")
 
