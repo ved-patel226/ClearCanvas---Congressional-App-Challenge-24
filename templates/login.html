@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block hero %}
+    <div class="login-form">
+        <h1>Are you a student or teacher?</h1>
+        <form id="roleForm" action="{{ url_for('login') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <a class="btn" onclick="setrole('student')">Student</a>
+            <a class="btn-alt" onclick="setrole('teacher')">Teacher</a>
+            <input type="hidden" name="role" id="roleInput">
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/setRole.js') }}"></script>
+
+{% endblock %}

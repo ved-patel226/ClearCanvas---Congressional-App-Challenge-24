@@ -56,6 +56,7 @@ main {
 .btn-alt:hover {
     background-color: var(--primary);
     color: var(--quaternary);
+    cursor: pointer;
 }
 
 .nav {
@@ -236,4 +237,75 @@ main {
 .error p span{
     font-size: 20px;
     font-weight: 900;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: var(--quaternary);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 1rem rgba(var(--primary-rgb), 0.2);
+    max-width: 400px;
+    margin: auto;
+}
+
+.login-form h1 {
+    font-size: 28px;
+    color: var(--primary);
+    text-align: center;
+}
+
+.school-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    transition: all var(--spring-duration) var(--spring-easing);
+}
+
+.school-container .text {
+    max-width: 500px;
+}
+
+.school-container img {
+    border-radius: 10px;
+}
+
+#canvas {
+    position: relative;
+}
+
+#image {
+    display: block;
+}
+
+.circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    pointer-events: none;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    background: #ddd;
+    border-radius: 5px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
 }
