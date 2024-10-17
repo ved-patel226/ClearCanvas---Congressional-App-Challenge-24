@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block hero %}
+
+<div class="school-container">
+    <div class="text">
+        <h1>{{ problem['problem'] }}</h1>
+        <h2>Issue raised by: {{ problem['username'] }}</h2>
+        <h2>Date: {{ problem['timestamp'] }}</h2>
+        <h2>Severity: {{ problem['level'] }}</h2>
+        <h2>Their Email: {{ email }}</h2>
+    </div>
+    <div id="canvas">
+        <img id="image" src="{{ url_for('static', filename=school_info['file']) }}" alt="" draggable="false">
+        <div class="circle" style="left: {{problem['x']}}px; top: {{problem['y']}}px;"></div>
+    </div>    
+</div>
+
+{% endblock %}
