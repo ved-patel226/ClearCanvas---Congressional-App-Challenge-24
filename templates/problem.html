@@ -7,8 +7,10 @@
         <h1>{{ problem['problem'] }}</h1>
         <h2>Issue raised by: {{ problem['username'] }}</h2>
         <h2>Date: {{ problem['timestamp'] }}</h2>
-        <h2>Severity: {{ problem['level'] }}</h2>
-        <h2>Their Email: {{ email }}</h2>
+        <h2>Severity (1-5 Scale): {{ problem['level'] }} </h2>
+        <h2>Email via Gmail: 
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ email }}&su=ClearCanvas%20RE:%20{{ problem['problem'] }}%20-%20{{ problem['username'] }}%20-%20{{ problem['timestamp'] }}&body=Hey!%20Thanks%20for%20reaching%20out..%20It%20takes%20courage%20to%20do%20this.%0A%0A%0AAnyways, let's talk," target="_blank">{{ email }}</a>
+        </h2>
     </div>
     <div id="canvas">
         <img id="image" src="{{ url_for('static', filename=school_info['file']) }}" alt="" draggable="false">

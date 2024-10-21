@@ -60,14 +60,22 @@ def index():
             
             mongo.close_connection()
             
-            return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role, coords=coords)
-        
+            cprint(f"Role: {role}", "green", attrs=["bold"])
+            return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role, coords=coords)  
         
         else:
+            cprint(f"Role: {role}", "green", attrs=["bold"])
+
             mongo.close_connection()
             return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role)
     except BaseException as e:
         mongo.close_connection()
+        
+        school_info_needed, school_info = get_school_info(resp)
+        
+        cprint(f"Role: {role}", "green", attrs=["bold"])
+        cprint(f"{school_info_needed}", "green", attrs=["bold"])
+        cprint(f"{school_info}", "green", attrs=["bold"])
         return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info, role=role)
         
 @app.route("/problem", methods=["POST"])
@@ -83,23 +91,12 @@ def problem():
     
     for l in mongo_lst:
         lst.append(l)
-    
-    
+
     get_coordinates = find_latest_timestamp(lst)
     cprint(f"Latest Timestamp: {get_coordinates}", "grey", attrs=["bold"])
         
     mongo.update_document("coordinates", lst[get_coordinates[1]], {"problem": problem, "level": level})
     mongo.close_connection()
-
-    email = resp.json()['email']
-        
-    send_email(
-        env_to_var("FROM_EMAIL"),
-        email,
-        env_to_var("FROM_EMAIL_PASSWORD"),
-        "Problem Reported",
-        "Your problem has been reported. We will get back to you soon."     
-    )
 
     return render_template("success.html")
 
@@ -142,15 +139,18 @@ def form_handling():
     resp_set()
     
     school_name = request.form.get('school_name')
-    
     cprint(f"School Name: {school_name}", "grey", attrs=["bold"])
     
     school_info_needed, school_info = get_school_info(resp)
     
     mongo = MongoDBHandler()
     mongo.update_document("users", {"username": resp.json()['login']}, {"school": school_name})
-    mongo.close_connection()
     
+    if mongo.find_document("users", {"username": resp.json()['login']}) == None:
+        mongo.insert_document("users", {"username": resp.json()['login'], "school": school_name})
+        
+    mongo.close_connection()
+        
     return render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info)
     
 @app.route("/search_schools", methods=["GET"])
@@ -191,9 +191,11 @@ def login():
             mongo.insert_document("users", {"username": resp.json()['login'], "role": request.form.get("role")})
         mongo.close_connection()
         
-        
-        return redirect(render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info))
-        
+        try:
+            return redirect(render_template("dashboard.html", username=resp.json()['login'], info=school_info_needed, school_info=school_info))
+        except:
+            return redirect(url_for("index"))
+     
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -205,7 +207,6 @@ def register():
     
     if not github.authorized:
         register_redirect = True
-        
         return redirect(url_for("github.login"))
     
     if request.method == "POST":
@@ -217,7 +218,8 @@ def register():
         assert 'file' in request.files
         assert file.filename != ''
 
-        if file:
+        print(file.filename)
+        if file:            
             file.filename = f"{school_name}.png"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], school_name, file.filename)
             
@@ -237,7 +239,7 @@ def register():
             file.save(filepath)
             
             cprint("Dashboard", "grey", attrs=["bold"])
-            return render_template("dashboard.html", username=resp.json().get("login"))
+            return render_template("index.html", username=resp.json().get("login"))
     
     cprint("Register", "grey", attrs=["bold"])
     return render_template("register.html")
@@ -255,7 +257,6 @@ def get_coordinates():
     
     cprint(f"Data: {data}", "grey", attrs=["bold"])
 
-    
     mongo.insert_document("coordinates", data)
     mongo.close_connection()
     

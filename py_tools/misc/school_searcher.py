@@ -13,7 +13,7 @@ def search_csv_column(file_path: str, column_name: str, search_string: str) -> l
     top_results = search_results[[column_name, 'ADDRESS']].head(3)
 
     if top_results.empty:
-        return search_csv_column("static\schools\Private_Schools.csv", column_name, search_string)
+        return search_csv_column("static/schools/Private_Schools.csv", column_name, search_string)
 
     result_list = top_results.values.tolist()
     

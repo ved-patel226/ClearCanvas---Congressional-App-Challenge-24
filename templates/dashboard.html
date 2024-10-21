@@ -46,7 +46,7 @@
             </div>
         {% endif %}
     {% else %}
-    <div class="school-container">
+        <div class="school-container">
             <div id="canvas">
                 <img id="image" src="{{school_info['file']}}" alt="" draggable="false">
                 {% for c in coords %}
@@ -56,7 +56,7 @@
             <div class="btns">
                 <a class="btn" href="{{ url_for('problems')}}">All Problems</a>
             </div>
-    </div>
+        </div>
     {% endif %}
 
 

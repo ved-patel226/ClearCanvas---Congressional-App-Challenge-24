@@ -175,7 +175,7 @@ main {
     gap: 100px;
     padding: 150px;
     background: rgba(var(--quaternary-rgb), 0.3);
-    height: calc(100vh - 500px);
+    height: calc(100vh - 400px);
     transform: translate3d(0, 0, 0);
     transition: all var(--spring-duration) var(--spring-easing);
 }

@@ -60,6 +60,7 @@ def main() -> None:
     
     # mongo.delete_documents("coordinates", {})
     # mongo.update_document("users", {"username": "ved-patel226"}, {"role": "teacher"})
+    mongo.insert_document("users", {"username": "ved-patel226", "role": "student"})
     mongo.print_all_documents()
         
         
