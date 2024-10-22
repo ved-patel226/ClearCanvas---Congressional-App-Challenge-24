@@ -1,11 +1,12 @@
 <p align="center">
-  <img src="https://img.icons8.com/?size=512&id=55494&format=png" width="20%" alt="CLEARCANVAS-CONGRESSIONAL-APP-CHALLENGE-24-logo">
+  <img src="static/imgs/eraser.png" width="20%" alt="CLEARCANVAS-logo"
+  style="background-color: white; border-radius: 5px;">
 </p>
 <p align="center">
-    <h1 align="center">CLEARCANVAS-CONGRESSIONAL-APP-CHALLENGE-24</h1>
+    <h1 align="center">CLEARCANVAS</h1>
 </p>
 <p align="center">
-    <em><code>❯ REPLACE-ME</code></em>
+    <em><code>❯ Ved patel, Krish Harish, Arsh Bhalala</code></em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/ved-patel226/ClearCanvas-Congressional-App-Challenge-24?style=flat&logo=opensourceinitiative&logoColor=white&color=705c53" alt="license">
@@ -43,20 +44,24 @@
 
 ## 📍 Overview
 
-<code>❯ REPLACE-ME</code>
+<code>❯ ClearCanvas is a software for students to report problems in their school. ClearCanvas can solve problems from sharing math answers to vaping.</code>
 
 ---
 
 ## 👾 Features
 
-<code>❯ REPLACE-ME</code>
+<code>❯ Pin system for easily selecting the location of the issue</code>
+
+<code>❯ Ask questions easier with email integration</code>
+
+<code>❯ Find schools easily with our school-finder</code>
 
 ---
 
 ## 📂 Repository Structure
 
 ```sh
-└── ClearCanvas-Congressional-App-Challenge-24/
+└── ClearCanvas/
     ├── main.py
     ├── py_tools
     │   ├── __init__.py
@@ -89,7 +94,7 @@
 
 | File | Summary |
 | --- | --- |
-| [main.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/main.py) | <code>❯ REPLACE-ME</code> |
+| [main.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/main.py) | <code>Main python file for the flask app</code> |
 
 </details>
 
@@ -97,15 +102,15 @@
 
 | File | Summary |
 | --- | --- |
-| [register.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/register.html) | <code>❯ REPLACE-ME</code> |
-| [success.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/success.html) | <code>❯ REPLACE-ME</code> |
-| [problem.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/problem.html) | <code>❯ REPLACE-ME</code> |
-| [error.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/error.html) | <code>❯ REPLACE-ME</code> |
-| [login.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/login.html) | <code>❯ REPLACE-ME</code> |
-| [index.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/index.html) | <code>❯ REPLACE-ME</code> |
-| [base.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/base.html) | <code>❯ REPLACE-ME</code> |
-| [dashboard.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/dashboard.html) | <code>❯ REPLACE-ME</code> |
-| [problems.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/problems.html) | <code>❯ REPLACE-ME</code> |
+| [register.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/register.html) | <code>❯ HTML file for registering schools</code> |
+| [success.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/success.html) | <code>❯ HTML file for the success message</code> |
+| [problem.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/problem.html) | <code>❯ HTML file for viewing the file</code> |
+| [error.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/error.html) | <code>❯ HTML file for errors</code> |
+| [login.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/login.html) | <code>❯ HTML file for student/teacher login</code> |
+| [index.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/index.html) | <code>❯ HTML file for the landing page</code> |
+| [base.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/base.html) | <code>❯ Base HTML file for all html files</code> |
+| [dashboard.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/dashboard.html) | <code>❯ HTML file for teachers'/students' dashboard</code> |
+| [problems.html](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/templates/problems.html) | <code>❯ HTML file for viewing all problems</code> |
 
 </details>
 
@@ -113,8 +118,8 @@
 
 | File | Summary |
 | --- | --- |
-| [mongo_db.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/essentials/mongo_db.py) | <code>❯ REPLACE-ME</code> |
-| [env_to_var.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/essentials/env_to_var.py) | <code>❯ REPLACE-ME</code> |
+| [mongo_db.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/essentials/mongo_db.py) | <code>❯ Python file to make communication between Mongo and us easier</code> |
+| [env_to_var.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/essentials/env_to_var.py) | <code>❯ Python file for getting API keys from .env file</code> |
 
 </details>
 
@@ -122,11 +127,10 @@
 
 | File | Summary |
 | --- | --- |
-| [latest.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/latest.py) | <code>❯ REPLACE-ME</code> |
-| [school_searcher.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/school_searcher.py) | <code>❯ REPLACE-ME</code> |
-| [school.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/school.py) | <code>❯ REPLACE-ME</code> |
-| [send_email.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/send_email.py) | <code>❯ REPLACE-ME</code> |
-| [school_info.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/school_info.py) | <code>❯ REPLACE-ME</code> |
+| [latest.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/latest.py) | <code>❯ Python file for getting the latest timestamp</code> |
+| [school_searcher.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/school_searcher.py) | <code>❯ Python file for finding your school from the csv</code> |
+| [send_email.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/send_email.py) | <code>❯ Python file for sending emails (scrapped due to time)</code> |
+| [school_info.py](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/py_tools/misc/school_info.py) | <code>❯ Python file for getting school info from MongoDB</code> |
 
 </details>
 
@@ -136,13 +140,13 @@
 
 ### 🔖 Prerequisites
 
-**HTML**: `version x.y.z`
+**Python**: `Version: 3.10`
 
 ### 📦 Installation
 
 Build the project from source:
 
-1. Clone the ClearCanvas-Congressional-App-Challenge-24 repository:
+1. Clone the ClearCanvas repository:
 ```sh
 ❯ git clone https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24
 ```
@@ -152,34 +156,27 @@ Build the project from source:
 ❯ cd ClearCanvas-Congressional-App-Challenge-24
 ```
 
-3. Install the required dependencies:
+3. Install the required dependencies. **<span style="color: red;">WE RECOMMEND USING CONDA</span>**
 ```sh
-❯ ❯ INSERT-INSTALL-COMMANDS
+❯ ❯ pip install -r requirements.txt
 ```
+
 
 ### 🤖 Usage
 
 To run the project, execute the following command:
 
 ```sh
-❯ ❯ INSERT-RUN-COMMANDS
-```
-
-### 🧪 Tests
-
-Execute the test suite using the following command:
-
-```sh
-❯ ❯ INSERT-TEST-COMMANDS
+❯ ❯ python3 main.py
 ```
 
 ---
 
 ## 📌 Project Roadmap
 
-- [X] **`Task 1`**: <strike>Implement feature one.</strike>
-- [ ] **`Task 2`**: Implement feature two.
-- [ ] **`Task 3`**: Implement feature three.
+- [X] **`Task 1`**: <strike>Release V1.0</strike>
+- [ ] **`Task 2`**: Add auto-email support.\
+- [ ] **`Task 3`**: Add mobile support
 
 ---
 
@@ -187,7 +184,7 @@ Execute the test suite using the following command:
 
 Contributions are welcome! Here are several ways you can contribute:
 
-- **[Report Issues](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/issues)**: Submit bugs found or log feature requests for the `ClearCanvas-Congressional-App-Challenge-24` project.
+- **[Report Issues](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/issues)**: Submit bugs found or log feature requests for the `ClearCanvas` project.
 - **[Submit Pull Requests](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 - **[Join the Discussions](https://github.com/ved-patel226/ClearCanvas-Congressional-App-Challenge-24/discussions)**: Share your insights, provide feedback, or ask questions.
 
